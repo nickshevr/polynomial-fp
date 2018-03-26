@@ -15,6 +15,11 @@ class TestPolynomial(unittest.TestCase):
     def test_init_incorrect_list(self):
         self.assertRaises(Exception, Polynomial, ["1", 2])
 
+    def test_init_by_zero(self):
+        p = Polynomial([0])
+        self.assertEqual(p.coeffs, [0])
+        self.assertEqual(p.degree, 0)
+
     def test_init_senior_values_is_zero(self):
         p = Polynomial([1, 2, 0])
         self.assertEqual(p.coeffs, [1, 2])
@@ -62,6 +67,12 @@ class TestPolynomial(unittest.TestCase):
         p3 = p1 + p2
         self.assertEqual(p3, p1)
         self.assertEqual(p3.degree, 2)
+
+    def test_mul_zero(self):
+        p1 = Polynomial([1, 2, 3])
+        p2 = 0
+        p3 = p1 * p2
+        self.assertEqual(p3, Polynomial([0]))
 
 if __name__ == "__main__":
     unittest.main()

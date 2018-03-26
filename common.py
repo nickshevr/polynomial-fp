@@ -2,7 +2,9 @@ from pydash import _
 from string import Template
 
 findNonZero = _().find_last_index(lambda elem: elem != 0)
-sliceZeroCoeffs = lambda coeffs_list: _.slice(coeffs_list, 0, findNonZero(coeffs_list) + 1)
+checkForZero = lambda x: x if x > 0 else 0
+checkCoeffList = _.flow(findNonZero, checkForZero)
+sliceZeroCoeffs = lambda coeffs_list: _.slice(coeffs_list, 0, checkCoeffList(coeffs_list) + 1)
 
 size = lambda list: _.size(list)
 
