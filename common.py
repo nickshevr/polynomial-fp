@@ -16,6 +16,7 @@ isNumerical = lambda x: isinstance(x, (int, float))
 isListEmpty = lambda list: size(list) == 0
 isListNumerical = _().every(isNumerical)
 
+addToFirstElem = _.curry(lambda value, list: [list[0] + value] + list[1:])
 sumIdenticalSizeList = lambda a_list, b_list: _.map(a_list, lambda x, index: b_list[index] + x)
 # size b gt size a
 sumGtList = lambda a, b: _.flow(sumIdenticalSizeList, curryLeftAppend(_.slice(b, size(a), size(b))))(a, b)

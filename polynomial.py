@@ -12,6 +12,8 @@ class Polynomial:
         self.degree = fp.size(self.coeffs) - 1
 
     def __add__(self, other):
+        if fp.isNumerical(other):
+            return Polynomial(fp.addToFirstElem(other)(self.coeffs))
         if isinstance(other, Polynomial):
             return Polynomial(fp.sumList(self.coeffs, other.coeffs))
         else:
