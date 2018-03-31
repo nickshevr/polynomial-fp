@@ -20,6 +20,11 @@ class TestPolynomial(unittest.TestCase):
         self.assertEqual(p.coeffs, [0])
         self.assertEqual(p.degree, 0)
 
+    def test_init_by_number(self):
+        p = Polynomial([1])
+        self.assertEqual(p.coeffs, [1])
+        self.assertEqual(p.degree, 0)
+
     def test_init_senior_values_is_zero(self):
         p = Polynomial([1, 2, 0])
         self.assertEqual(p.coeffs, [1, 2])
@@ -34,6 +39,16 @@ class TestPolynomial(unittest.TestCase):
         p1 = Polynomial([1, 2, 3])
         p2 = Polynomial([1, 2, 3])
         self.assertTrue(p1 == p2)
+
+    def test_eq_number(self):
+        p1 = Polynomial([1])
+        p2 = 1
+        self.assertTrue(p1 == p2)
+
+    def test_eq_raise(self):
+        p1 = Polynomial([1])
+        p2 = '2'
+        self.assertRaises(Exception, p1.__eq__, p2)
 
     def test_eq_false(self):
         p1 = Polynomial([1, 2, 3])
@@ -123,6 +138,7 @@ class TestPolynomial(unittest.TestCase):
         p2 = Polynomial([1, 2, 3])
         p3 = p1 * p2
         self.assertEqual(p3, Polynomial([0, -1, -2, -3]))
+
 
 
 if __name__ == "__main__":

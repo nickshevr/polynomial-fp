@@ -1,6 +1,8 @@
 from pydash import _
 from string import Template
 
+head = lambda list: list[0]
+
 findNonZero = _().find_last_index(lambda elem: elem != 0)
 checkForZero = lambda x: x if x > 0 else 0
 checkCoeffList = _.flow(findNonZero, checkForZero)

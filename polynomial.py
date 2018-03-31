@@ -20,7 +20,12 @@ class Polynomial:
             raise Exception()
 
     def __eq__(self, other):
-        return self.coeffs == other.coeffs
+        if fp.isNumerical(other) and self.degree == 0:
+            return other == fp.head(self.coeffs)
+        if isinstance(other, Polynomial):
+            return self.coeffs == other.coeffs
+        else:
+            raise Exception()
 
     def __mul__(self, other):
         if fp.isNumerical(other):
