@@ -36,4 +36,4 @@ class Polynomial:
             raise Exception()
 
     def __str__(self):
-        return fp.stringifyPolynomial(self.coeffs)
+        return fp.stringifyPolynomialPretty(self.coeffs)

@@ -2,6 +2,7 @@ from pydash import _
 from string import Template
 
 head = lambda list: list[0]
+tail = lambda list: list[1:]
 
 findNonZero = _().find_last_index(lambda elem: elem != 0)
 checkForZero = lambda x: x if x > 0 else 0
@@ -24,9 +25,6 @@ sumIdenticalSizeList = lambda a_list, b_list: _.map(a_list, lambda x, index: b_l
 sumGtList = lambda a, b: _.flow(sumIdenticalSizeList, curryLeftAppend(_.slice(b, size(a), size(b))))(a, b)
 sumList = lambda a, b: sumGtList(a, b) if size(b) > size(a) else sumGtList(b, a)
 
-polyTemplate = Template('${type} ${coeff}x${degree} ')
-stringifyPolynomial = _().reduce(lambda total, x, index: total + polyTemplate.substitute(type='+' if x >= 0 else '-', coeff=abs(x), degree=index), '')
-
 valueList = _.curry(lambda item, length: map(item, range(length)))
 zeroList = valueList(lambda _: 0)
 listMulOnValue = lambda num: _().map(lambda x: num * x)
@@ -40,3 +38,25 @@ polynomialMul = lambda a,b: _.reduce(a, lambda total, coeff, index: list_insert(
 flatSumList = lambda x: _.reduce(x, lambda total, poly: sumList(total, poly), [])
 
 polyMul = lambda a,b: _.flow(polynomialMul, flatSumList)(a,b)
+
+numericTemplate = Template('${type} ${coeff}')
+firstDegreeTemplate = Template(' ${type} ${coeff}x')
+polyTemplate = Template(' ${type} ${coeff}x${degree}')
+
+typeGetter = lambda x: '+' if x >= 0 else '-'
+coeffGetter = _.flow(abs, lambda coeff: coeff if coeff != 1 else '')
+
+zeroDegreeTypeGetter = lambda x: '' if x >= 0 else '-'
+zeroDegreeCoeffGetter = _.flow(abs)
+zeroDegreeTemplater = lambda x, degree: numericTemplate.substitute(type=zeroDegreeTypeGetter(x), coeff=zeroDegreeCoeffGetter(x))
+
+firstDegreeTemplater = lambda x, degree: firstDegreeTemplate.substitute(type=typeGetter(x), coeff=coeffGetter(x))
+degreeTemplater = lambda x, degree: polyTemplate.substitute(type=typeGetter(x), coeff=coeffGetter(x), degree=degree)
+
+templateGetter = lambda index: zeroDegreeTemplater if index == 0 else firstDegreeTemplater if index == 1 else degreeTemplater
+templater = lambda x, index: templateGetter(index)(x, degree=index) if x != 0 else ''
+
+strReducerCb = lambda total, x, index: total + templater(x, index) if total else total + templater(x, index).strip()
+
+stringifyPolynomial = _().reduce(strReducerCb, '')
+stringifyPolynomialPretty = lambda list: stringifyPolynomial(list) or '0'
