@@ -39,7 +39,7 @@ class TestPolynomial(unittest.TestCase):
         p1 = Polynomial([1, 2, 3])
         p2 = Polynomial([1, 2, 3])
         self.assertTrue(p1 == p2)
-
+    
     def test_eq_number(self):
         p1 = Polynomial([1])
         p2 = 1
@@ -54,6 +54,16 @@ class TestPolynomial(unittest.TestCase):
         p1 = Polynomial([1, 2, 3])
         p2 = Polynomial([1, 2])
         self.assertFalse(p1 == p2)
+
+    def test_neq_true(self):
+        p1 = Polynomial([1, 2, 3])
+        p2 = Polynomial([1, 2, 4])
+        self.assertTrue(p1 != p2)
+
+    def test_neq_false(self):
+        p1 = Polynomial([1, 2, 3])
+        p2 = Polynomial([1, 2, 3])
+        self.assertFalse(p1 != p2)
 
     def test_add_constant(self):
         p1 = Polynomial([1, 2])

@@ -30,6 +30,9 @@ class Polynomial:
         else:
             raise TypeError()
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __mul__(self, other):
         if fp.isNumerical(other):
             return Polynomial(fp.listMulOnValue(other)(self.coeffs))
