@@ -11,6 +11,9 @@ class Polynomial:
         self.coeffs = fp.sliceZeroCoeffs(coefficients)
         self.degree = fp.size(self.coeffs) - 1
 
+    def __radd__(self, other):
+        return self + other
+
     def __add__(self, other):
         if fp.isNumerical(other):
             return Polynomial(fp.addToFirstElem(other)(self.coeffs))
@@ -34,6 +37,9 @@ class Polynomial:
             return Polynomial(fp.polyMul(self.coeffs, other.coeffs))
         else:
             raise TypeError()
+
+    def __rmul__(self, other):
+        return self * other
 
     def __str__(self):
         return fp.stringifyPolynomialPretty(self.coeffs)
