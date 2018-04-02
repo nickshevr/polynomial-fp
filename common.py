@@ -45,9 +45,8 @@ polyTemplate = Template('${type}${coeff}x${degree}')
 typeGetter = lambda x: '+' if x >= 0 else '-'
 coeffGetter = _.flow(abs, lambda coeff: coeff if coeff != 1 else '')
 
-zeroDegreeTypeGetter = lambda x: '' if x >= 0 else '-'
 zeroDegreeCoeffGetter = _.flow(abs)
-zeroDegreeTemplater = lambda x, degree: numericTemplate.substitute(type=zeroDegreeTypeGetter(x), coeff=zeroDegreeCoeffGetter(x))
+zeroDegreeTemplater = lambda x, degree: numericTemplate.substitute(type=typeGetter(x), coeff=zeroDegreeCoeffGetter(x))
 
 degreeTemplater = _.curry_right(lambda x, degree: polyTemplate.substitute(type=typeGetter(x), coeff=coeffGetter(x), degree=degree))
 firstDegreeTemplater = degreeTemplater(degree='')
@@ -55,8 +54,8 @@ firstDegreeTemplater = degreeTemplater(degree='')
 templateGetter = lambda index: zeroDegreeTemplater if index == 0 else firstDegreeTemplater if index == 1 else degreeTemplater
 templater = lambda x, index: templateGetter(index)(x, degree=index) if x != 0 else ''
 
-strReducerCb = lambda total, x, index: total + templater(x, index) if total else total + templater(x, index).strip()
+strReducerCb = _.curry(lambda size, total, x, index: total + templater(x, size - index - 1) if total else total + templater(x, size - index - 1).strip())
 
-stringifyPolynomial = _().reduce(strReducerCb, '')
+stringifyPolynomial = lambda list: _.reduce_right(list, strReducerCb(size(list)), '')
 stringifyPolynomialCheck = lambda res: '0' if res == '' else tail(res) if res[0] == '+' else res
 stringifyPolynomialPretty = lambda list: _.flow(stringifyPolynomial, stringifyPolynomialCheck)(list)
