@@ -8,7 +8,7 @@ class Polynomial:
             raise TypeError("Empty coeffs")
         if not fp.isListNumerical(coefficients):
             raise TypeError("Coeffs shouild be float or int")
-        self.coeffs = fp.sliceZeroCoeffs(coefficients)
+        self.coeffs = fp.prepareCoeefs(coefficients)
         self.degree = fp.size(self.coeffs) - 1
 
     def __radd__(self, other):
@@ -16,9 +16,9 @@ class Polynomial:
 
     def __add__(self, other):
         if fp.isNumerical(other):
-            return Polynomial(fp.addToFirstElem(other)(self.coeffs))
+            return Polynomial(fp.reverse(fp.addToFirstElem(other)(self.coeffs)))
         if isinstance(other, Polynomial):
-            return Polynomial(fp.sumList(self.coeffs, other.coeffs))
+            return Polynomial(fp.reverse(fp.sumList(self.coeffs, other.coeffs)))
         else:
             raise TypeError()
 
@@ -35,9 +35,9 @@ class Polynomial:
 
     def __mul__(self, other):
         if fp.isNumerical(other):
-            return Polynomial(fp.listMulOnValue(other)(self.coeffs))
+            return Polynomial(fp.reverse(fp.listMulOnValue(other)(self.coeffs)))
         if isinstance(other, Polynomial):
-            return Polynomial(fp.polyMul(self.coeffs, other.coeffs))
+            return Polynomial(fp.reverse(fp.polyMul(self.coeffs, other.coeffs)))
         else:
             raise TypeError()
 
@@ -45,4 +45,7 @@ class Polynomial:
         return self * other
 
     def __str__(self):
+        return fp.stringifyPolynomialPretty(self.coeffs)
+
+    def __repr__(self):
         return fp.stringifyPolynomialPretty(self.coeffs)
