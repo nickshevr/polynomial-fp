@@ -153,7 +153,7 @@ class TestPolynomial(unittest.TestCase):
 
     def test_str_first_value_is_zero(self):
         p1 = Polynomial([0, 2, 3])
-        self.assertEqual(str(p1), '+2x+3x2')
+        self.assertEqual(str(p1), '2x+3x2')
 
     def test_str_first_value_is_one(self):
         p1 = Polynomial([1, 2, 3])
@@ -173,11 +173,11 @@ class TestPolynomial(unittest.TestCase):
 
     def test_str_first_two_value_is_zero(self):
         p1 = Polynomial([0, 0, 3])
-        self.assertEqual(str(p1), '+3x2')
+        self.assertEqual(str(p1), '3x2')
 
     def test_str_one_value_is_zero(self):
         p1 = Polynomial([0, 1, 0])
-        self.assertEqual(str(p1), '+x')
+        self.assertEqual(str(p1), 'x')
 
     def test_str_one_value_is_minus_zero(self):
         p1 = Polynomial([0, -1, 0])

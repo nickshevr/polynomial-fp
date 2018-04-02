@@ -59,4 +59,13 @@ templater = lambda x, index: templateGetter(index)(x, degree=index) if x != 0 el
 strReducerCb = lambda total, x, index: total + templater(x, index) if total else total + templater(x, index).strip()
 
 stringifyPolynomial = _().reduce(strReducerCb, '')
-stringifyPolynomialPretty = lambda list: stringifyPolynomial(list) or '0'
+def stringifyPolynomialPretty(list):
+  res = stringifyPolynomial(list)
+
+  if res == '':
+    return '0'
+
+  if res[0] == '+':
+    return tail(res)
+  
+  return res
