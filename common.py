@@ -39,9 +39,9 @@ flatSumList = lambda x: _.reduce(x, lambda total, poly: sumList(total, poly), []
 
 polyMul = lambda a,b: _.flow(polynomialMul, flatSumList)(a,b)
 
-numericTemplate = Template('${type} ${coeff}')
-firstDegreeTemplate = Template(' ${type} ${coeff}x')
-polyTemplate = Template(' ${type} ${coeff}x${degree}')
+numericTemplate = Template('${type}${coeff}')
+firstDegreeTemplate = Template('${type}${coeff}x')
+polyTemplate = Template('${type}${coeff}x${degree}')
 
 typeGetter = lambda x: '+' if x >= 0 else '-'
 coeffGetter = _.flow(abs, lambda coeff: coeff if coeff != 1 else '')

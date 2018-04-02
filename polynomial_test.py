@@ -10,10 +10,10 @@ class TestPolynomial(unittest.TestCase):
         self.assertEqual(p.degree, 2)
 
     def test_init_empty_list(self):
-        self.assertRaises(Exception, Polynomial, [])
+        self.assertRaises(TypeError, Polynomial, [])
 
     def test_init_incorrect_list(self):
-        self.assertRaises(Exception, Polynomial, ["1", 2])
+        self.assertRaises(TypeError, Polynomial, ["1", 2])
 
     def test_init_by_zero(self):
         p = Polynomial([0])
@@ -48,7 +48,7 @@ class TestPolynomial(unittest.TestCase):
     def test_eq_raise(self):
         p1 = Polynomial([1])
         p2 = '2'
-        self.assertRaises(Exception, p1.__eq__, p2)
+        self.assertRaises(TypeError, p1.__eq__, p2)
 
     def test_eq_false(self):
         p1 = Polynomial([1, 2, 3])
@@ -71,7 +71,7 @@ class TestPolynomial(unittest.TestCase):
 
     def test_mul_string_constant(self):
         p1 = Polynomial([1, 2])
-        self.assertRaises(Exception, p1.__mul__, "asd")
+        self.assertRaises(TypeError, p1.__mul__, "asd")
     
     def test_add_same_polyn_size(self):
         p1 = Polynomial([1, 2])
@@ -141,7 +141,7 @@ class TestPolynomial(unittest.TestCase):
 
     def test_str(self):
         p1 = Polynomial([1, 2])
-        self.assertEqual(str(p1), '1 + 2x')
+        self.assertEqual(str(p1), '1+2x')
 
     def test_str_zero_values(self):
         p1 = Polynomial([0, 0, 0])
@@ -153,39 +153,39 @@ class TestPolynomial(unittest.TestCase):
 
     def test_str_first_value_is_zero(self):
         p1 = Polynomial([0, 2, 3])
-        self.assertEqual(str(p1), '+ 2x + 3x2')
+        self.assertEqual(str(p1), '+2x+3x2')
 
     def test_str_first_value_is_one(self):
         p1 = Polynomial([1, 2, 3])
-        self.assertEqual(str(p1), '1 + 2x + 3x2')
+        self.assertEqual(str(p1), '1+2x+3x2')
 
     def test_str_all_values_are_one(self):
         p1 = Polynomial([1, 1, 1])
-        self.assertEqual(str(p1), '1 + x + x2')
+        self.assertEqual(str(p1), '1+x+x2')
 
     def test_str_last_value_is_zero(self):
         p1 = Polynomial([1, 2, 0])
-        self.assertEqual(str(p1), '1 + 2x')
+        self.assertEqual(str(p1), '1+2x')
 
     def test_str_big_polynom(self):
         p1 = Polynomial([1, 0, 7, 9, 10, 12])
-        self.assertEqual(str(p1), '1 + 7x2 + 9x3 + 10x4 + 12x5')
+        self.assertEqual(str(p1), '1+7x2+9x3+10x4+12x5')
 
     def test_str_first_two_value_is_zero(self):
         p1 = Polynomial([0, 0, 3])
-        self.assertEqual(str(p1), '+ 3x2')
+        self.assertEqual(str(p1), '+3x2')
 
     def test_str_one_value_is_zero(self):
         p1 = Polynomial([0, 1, 0])
-        self.assertEqual(str(p1), '+ x')
+        self.assertEqual(str(p1), '+x')
 
     def test_str_one_value_is_minus_zero(self):
         p1 = Polynomial([0, -1, 0])
-        self.assertEqual(str(p1), '- x')
+        self.assertEqual(str(p1), '-x')
 
     def test_str_first_value_is_negative(self):
         p1 = Polynomial([-1, 1, 0])
-        self.assertEqual(str(p1), '- 1 + x')
+        self.assertEqual(str(p1), '-1+x')
 
 if __name__ == "__main__":
     unittest.main()
