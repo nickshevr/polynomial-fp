@@ -40,7 +40,6 @@ flatSumList = lambda x: _.reduce(x, lambda total, poly: sumList(total, poly), []
 polyMul = lambda a,b: _.flow(polynomialMul, flatSumList)(a,b)
 
 numericTemplate = Template('${type}${coeff}')
-firstDegreeTemplate = Template('${type}${coeff}x')
 polyTemplate = Template('${type}${coeff}x${degree}')
 
 typeGetter = lambda x: '+' if x >= 0 else '-'
@@ -50,8 +49,8 @@ zeroDegreeTypeGetter = lambda x: '' if x >= 0 else '-'
 zeroDegreeCoeffGetter = _.flow(abs)
 zeroDegreeTemplater = lambda x, degree: numericTemplate.substitute(type=zeroDegreeTypeGetter(x), coeff=zeroDegreeCoeffGetter(x))
 
-firstDegreeTemplater = lambda x, degree: firstDegreeTemplate.substitute(type=typeGetter(x), coeff=coeffGetter(x))
-degreeTemplater = lambda x, degree: polyTemplate.substitute(type=typeGetter(x), coeff=coeffGetter(x), degree=degree)
+degreeTemplater = _.curry_right(lambda x, degree: polyTemplate.substitute(type=typeGetter(x), coeff=coeffGetter(x), degree=degree))
+firstDegreeTemplater = degreeTemplater(degree='')
 
 templateGetter = lambda index: zeroDegreeTemplater if index == 0 else firstDegreeTemplater if index == 1 else degreeTemplater
 templater = lambda x, index: templateGetter(index)(x, degree=index) if x != 0 else ''
@@ -59,13 +58,5 @@ templater = lambda x, index: templateGetter(index)(x, degree=index) if x != 0 el
 strReducerCb = lambda total, x, index: total + templater(x, index) if total else total + templater(x, index).strip()
 
 stringifyPolynomial = _().reduce(strReducerCb, '')
-def stringifyPolynomialPretty(list):
-  res = stringifyPolynomial(list)
-
-  if res == '':
-    return '0'
-
-  if res[0] == '+':
-    return tail(res)
-  
-  return res
+stringifyPolynomialCheck = lambda res: '0' if res == '' else tail(res) if res[0] == '+' else res
+stringifyPolynomialPretty = lambda list: _.flow(stringifyPolynomial, stringifyPolynomialCheck)(list)
